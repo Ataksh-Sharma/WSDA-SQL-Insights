@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:/Users/ABC/OneDrive/Documents/analytics/sql/WSDA_Music.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="125"/><column_width id="3" width="5253"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,7:mainInvoice"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="Album" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort><column index="2" mode="0"/></sort><column_widths><column index="1" value="84"/><column index="2" value="280"/><column index="3" value="76"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Artist" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="76"/><column index="2" value="187"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Customer" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort><column index="1" mode="0"/></sort><column_widths><column index="1" value="111"/><column index="2" value="97"/><column index="3" value="105"/><column index="4" value="300"/><column index="5" value="300"/><column index="6" value="167"/><column index="7" value="55"/><column index="8" value="124"/><column index="9" value="106"/><column index="10" value="165"/><column index="11" value="157"/><column index="12" value="233"/><column index="13" value="131"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Employee" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="112"/><column index="2" value="95"/><column index="3" value="97"/><column index="4" value="157"/><column index="5" value="98"/><column index="6" value="162"/><column index="7" value="162"/><column index="8" value="228"/><column index="9" value="85"/><column index="10" value="55"/><column index="11" value="78"/><column index="12" value="106"/><column index="13" value="148"/><column index="14" value="148"/><column index="15" value="214"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Invoice" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="93"/><column index="2" value="111"/><column index="3" value="162"/><column index="4" value="300"/><column index="5" value="167"/><column index="6" value="109"/><column index="7" value="132"/><column index="8" value="160"/><column index="9" value="66"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="InvoiceLine" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="129"/><column index="2" value="93"/><column index="3" value="75"/><column index="4" value="88"/><column index="5" value="84"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Track" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="75"/><column index="2" value="187"/><column index="3" value="84"/><column index="4" value="121"/><column index="5" value="80"/><column index="6" value="244"/><column index="7" value="115"/><column index="8" value="97"/><column index="9" value="88"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="V_avgTotal" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="150"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">--Description: This query displays all customer's first and last name and email addresses
+
+SELECT
+  FirstName AS [Customer first Name],
+  LastName AS 'Customer last Name',
+  Email AS EMAIL
+  
+FROM
+  Customer
+
+ORDER BY
+  LastName DESC 
+ --ASE for accending sorting or it is default no need to put ASE
+LIMIT 10
+/*
+Description: 1. Customers who purchased two songs for 0.99 each.
+             2. How many invoices exist between 0.99 and 5.00?
+			 3. How many invoices do we have thta are exactly 1.98 and 3.96?
+*/
+SELECT
+  InvoiceDate,
+  BillingAddress,
+  BillingCity,
+  total
+  
+FROM
+  Invoice
+  
+/*WHERE
+  total = 1.98
+WHERE
+  total BETWEEN 1.98 AND 5.00 
+*/
+WHERE
+  total IN (1.98,3.96)
+
+ORDER by
+  InvoiceDate
+/*  
+Description: 1. How many invoices are billed brussels?
+             2. How many invoices are billed brussels, Orlando or Paris?
+*/
+SELECT
+  InvoiceDate,
+  BillingAddress,
+  BillingCity,
+  total
+  
+FROM
+  Invoice
+  
+/*
+WHERE
+  BillingCity = 'Brussels'
+*/
+
+WHERE
+  BillingCity IN ('Brussels','Orlando','Paris')
+
+ORDER by
+  InvoiceDate
+
+/*  
+Description: 1. How many invoices are billed cities starting with B?
+             2. How many invoices are billed cities that have B anywhere in their name?
+ 'Character'% is is a wildcard operator( I don't care what comes after)
+ %'Character'% (I don't care)
+*/
+SELECT
+  InvoiceDate,
+  BillingAddress,
+  BillingCity,
+  total
+  
+FROM
+  Invoice
+
+/*
+WHERE
+  BillingCity like 'B%'
+*/
+WHERE
+  BillingCity like '%B%'
+ORDER by
+  InvoiceDate
+  
+-- Description: How many invoices were billed on date 2010-05-22 00:00:00?
+
+SELECT
+  InvoiceDate,
+  BillingAddress,
+  BillingCity,
+  total
+  
+FROM
+  Invoice
+/*
+WHERE
+  InvoiceDate = '2010-05-22 00:00:00'
+*/
+WHERE
+  date(INVOICEDATE) = '2010-05-22'
+  
+ORDER by
+  InvoiceDate
+  
+
+/*  
+Description: 1. How many invoices are billed after 2010-05-22 and have a total of less then 3.0?
+             2. Get all the invoices who's billing cities start with P or D.
+			 3. Get all the invoices that are greater than 1.98 and who's billing cities start with P or D.
+BEMDAS - Brackets,exponentials,Multiplication,Division,Addition,Substraction.
+*/
+SELECT
+  InvoiceDate,
+  BillingAddress,
+  BillingCity,
+  total
+  
+FROM
+  Invoice
+/*
+WHERE
+  date(invoicedate) &gt; '2010-05-22' AND total &lt; 3.0
+
+WHERE
+  BillingCity like 'P%' OR BillingCity like 'D%'
+ */
+WHERE
+ total &gt; 1.98 AND (BillingCity like 'P%' OR BillingCity like 'D%')
+ORDER by
+  InvoiceDate
+
+/*  
+Description: WSDA Music sales goal: 
+             They want as many as possible customers to spend between $7.00 and $15.00.
+			 Sales Categories:
+			 Baseline purchase - Between $0.99 and $1.99
+			 Low purchase - Between $2.00 and $6.99
+			 Target Purchase - Between $7.00 and $15.00
+			 Top performer - Above $15.00
+*/
+SELECT
+  InvoiceDate,
+  BillingAddress,
+  BillingCity,
+  total,
+  CASE
+  WHEN total &lt; 2.00 THEN 'Baseline Purchase'
+  WHEN total BETWEEN 2.00 AND 6.99 THEN 'Low Purchase'
+  WHEN total BETWEEN 7.00 AND 15.00 THEN 'Target Purchase'
+  ELSE 'Top Performer'
+  END AS PurchaseType
+  
+FROM
+  Invoice
+
+ WHERE
+ PurchaseType = 'Top Performer'
+ 
+ORDER by
+  BillingCity
+  
+--Description: what employees are responsible for top 10 sales.
+
+SELECT
+  c.FirstName AS 'Customer First Name',
+  c.LastName AS 'Customer Last Name',
+  c.SupportRepId,
+  e.FirstName AS 'Employee First Name',
+  e.LastName AS 'Employee Last Name',
+  e.EmployeeId,
+  i.CustomerId,
+  i.total
+  
+FROM
+  Invoice AS i
+INNER JOIN
+  Customer AS c
+ON	
+  i.CustomerId = c.CustomerId
+INNER JOIN
+  Employee AS e
+ON 
+  c.SupportRepId = e.EmployeeId
+  
+Order by
+  i.total DESC
+LIMIT 10
+
+--Description: Create a mailing list for US customers
+
+SELECT
+  FirstName AS [Customer first Name],
+  LastName AS 'Customer last Name',
+  Address,
+  FirstName||' '||LastName||' '||Address||','||City||' '||State||' '||PostalCode AS [Mailing Address],
+  length(PostalCode),
+  substr(postalcode,1,5) AS  '5 - Digit Postal code',
+  upper(firstname) AS [Upper case full name] 
+-- Lower(lastname) AS 'Lower case last name'
+FROM
+  Customer
+
+WHERE
+  Country = 'USA'
+
+/* 
+Description: 1.What are the average total invoice by cities.
+             2.What are the average total invoice by cities starting with 'B'.
+			 3.What are the average total invoice by cities and by countries.
+*/
+
+SELECT
+  BillingCountry,
+  BillingCity,
+  round(avg(total),2)
+  
+FROM
+  Invoice
+  
+/*WHERE
+  BillingCity like 'B%'
+--HAVING - For aggrigated data,after group by clause*/
+
+GROUP BY
+  BillingCountry,BillingCity
+  
+/*HAVING
+  avg(total)&gt;6*/
+ORDER BY
+	BillingCountry
+	
+-- Select invoices with totals below the rounded average, sorted in descending order by total.
+SELECT
+ InvoiceDate,
+ BillingAddress,
+ BillingCity,
+ total
+
+FROM
+  Invoice
+
+WHERE
+ total &lt; 
+   (SELECT 
+      round(AVG(TOTAL),2)
+	FROM
+	  Invoice)
+ 
+ORDER by
+  total DESC
+  
+-- Select billing details for invoices with dates later than the date of InvoiceId 251.
+ 
+SELECT
+  BillingAddress,
+  BillingCity,
+  InvoiceDate
+
+FROM
+  Invoice
+  
+WHERE
+   InvoiceDate &gt;
+  (SELECT
+     InvoiceDate
+   FROM
+     Invoice
+   WHERE
+     InvoiceId = 251)
+	 
+-- Select the average total by city and global average, grouped by BillingCity and sorted by city.
+
+SELECT
+  BillingCity,
+  round(avg(total),2) AS 'City Average',
+  (SELECT
+     round(avg(total),2)
+   FROM
+     Invoice) AS 'Global Average'
+FROM
+  Invoice
+GROUP by
+  BillingCity
+  
+ORDER by
+  BillingCity
+  
+-- Select billing details for invoices with dates matching those of InvoiceIds 251, 252, and 254.
+
+SELECT
+  BillingAddress,
+  BillingCity,
+  InvoiceDate
+  
+FROM
+  Invoice
+
+WHERE
+  InvoiceDate IN
+  (SELECT
+     InvoiceDate
+   FROM
+     Invoice
+   WHERE
+     InvoiceId IN (251,252,254))
+	 
+-- Select tracks that are not included in any invoice line, based on TrackId.(Tracks Not Selling)
+
+SELECT
+  TrackId,
+  Composer,
+  Name
+FROM
+  Track
+WHERE
+  TrackId
+  NOT IN
+  (SELECT
+     DISTINCT
+     TrackId
+   FROM
+     InvoiceLine
+   ORDER by
+     TrackId)
+	 
+-- Create a view that combines InvoiceLine and Track details by joining on TrackId.
+  
+CREATE VIEW V_tracks_invoiceline AS
+SELECT
+  il.TrackId,
+  il.UnitPrice,
+  il.Quantity,
+  t.Name,
+  t.Composer,
+  t.Milliseconds
+FROM
+  InvoiceLine AS il
+INNER JOIN
+  Track AS t
+ON 
+  il.TrackId = t.TrackId
+  
+-- DML - Inserting DATA
+-- Insert a new artist 'Linkin Park', update artist with ArtistId 276 to 'Connar Price', and delete artist with ArtistId 276.
+
+INSERT INTO
+  Artist(Name)
+VALUES('Linkin Park')
+
+UPDATE
+  Artist
+SET 
+  Name = 'Connar Price'
+WHERE
+  ArtistId = 276
+
+DELETE FROM
+  Artist
+WHERE
+  ArtistId = 276
+  
+--This query ranks sales for each customer by date and calculates their cumulative sales over a specified period, partitioned by customer
+
+SELECT 
+    c.CustomerID,
+    c.FirstName || ' ' || c.LastName AS Name,
+    i.InvoiceDate AS SaleDate,
+    i.Total AS Total_Amount,
+    RANK() OVER (PARTITION BY c.CustomerID ORDER BY i.InvoiceDate DESC) AS SaleRank,
+    SUM(i.Total) OVER (PARTITION BY c.CustomerID ORDER BY i.InvoiceDate ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS CumulativeSales
+FROM 
+    Invoice i
+JOIN 
+    Customer c ON i.CustomerID = c.CustomerID
+WHERE 
+    i.InvoiceDate BETWEEN '2009-01-01' AND '2013-12-31'
+ORDER BY 
+    c.CustomerID, i.InvoiceDate DESC;
+	
+-- CTE to calculate the total sales for each customer
+
+WITH CustomerSales AS (
+    SELECT 
+        c.CustomerID,
+        c.FirstName || ' ' || c.LastName AS CustomerName,
+        SUM(i.Total) AS TotalSales
+    FROM 
+        Invoice i
+    JOIN 
+        Customer c ON i.CustomerID = c.CustomerID
+    GROUP BY 
+        c.CustomerID, CustomerName
+),
+RankedCustomers AS (
+    -- CTE to rank customers based on their total sales (highest to lowest)
+    SELECT 
+        CustomerID,
+        CustomerName,
+        TotalSales,
+        RANK() OVER (ORDER BY TotalSales DESC) AS SalesRank
+    FROM 
+        CustomerSales
+)
+-- Final query to select customer details and their rank
+SELECT 
+    CustomerID,
+    CustomerName,
+    TotalSales,
+    SalesRank
+FROM 
+    RankedCustomers
+ORDER BY 
+    SalesRank;
+	
+</sql><current_tab id="0"/></tab_sql></sqlb_project>
